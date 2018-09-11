@@ -4,12 +4,16 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Hello World!
+
+My name is Lisa and I'm a developer in Germany; I am working for INNOQ.
+
+I've worked with Java, JavaScript, Python and other languages. I have some experience with Kubernetes and Docker. Of course I love learning more about any topic, which jumps into my way.
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
+Besides programming, I like to knit, to draw and to watch some movies and series on Netflix.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[lisa.moritz@teapot418.de](mailto:lisa.moritz@teapot418.de)
