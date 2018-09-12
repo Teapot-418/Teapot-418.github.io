@@ -33,10 +33,26 @@ If you're interested in doing the steps on your own, you will need:
 
 > You've already read, that I am using a Docker image for this demo/tutorial. This is something, that happens on purpose. Hadoop itself is created to run on big clusters, but I wanted to have a _quick and dirty_ introduction. There is nothing more _quick and dirty_ as Docker.
 
-**sequenceiq** is offering a Hadoop Docker image, which contains everything, we are going to use, so, why not use this one?
+[sequenceiq](https://github.com/sequenceiq/hadoop-docker) is offering a Hadoop Docker image, which contains everything, we are going to use.
 
 Get your container up and running, by using the following command:
 
 ```
 docker run -it -p 50070:50070 -p 8088:8088 -p 8020:8020 sequenceiq/hadoop-docker:2.7.0 /etc/bootstrap.sh -bash
 ```
+
+## Test if everything worked
+
+Inside the Docker container, there are already some test-files and also test-MapReduce-jobs available. They can help to identify, if everything is working correctly. Let's test it:
+
+1. Check the ID of the Docker container, by running ```docker container ls``` or ```docker ps```
+2. Go into the bash of the running container, by running ```docker exec -it <container-id> /bin/bash```
+3. Now you can run one of the examples:
+    ```
+    cd $HADOOP_PREFIX
+    # run the mapreduce
+    bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar grep input output 'dfs[a-z.]+'
+
+    # check the output
+    bin/hdfs dfs -cat output/*
+    ```
