@@ -283,6 +283,20 @@ footer {
   text-align: center;
 }
 
+.tag {
+  background-color: #9b009b;
+  color: whitesmoke;
+  padding: 0.5vh;
+  margin: 0.5vh;
+  border-radius: 10px;
+  border: 2px solid #9b009b;
+}
+
+.tag:hover {
+  background-color: whitesmoke;
+  color: #9b009b;
+}
+
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start
 @import "highlights";
