@@ -4,15 +4,15 @@ title: Hadoop - Taming The Elephant, Part 1
 tags: hadoop big-data tutorial
 ---
 
-> Nowadays people are talking a lot about big data, machine learning and other trendy topics. This blog-post-series offers an introduction to Hadoop.
+> Big data is a topic, many people talk about nowadays, one of the tools, which are used to handle big data, is Hadoop. This blog-post-series offers an introduction to Hadoop.
 
 ## What can you expect from this tutorial?
 
-This blog-posts are written to give a _quick and dirty_ introduction to Hadoop, with a lot of hands-on. The main goal is no deep understanding of Hadoop internals, the main goal is to have an easy way to try out Hadoop without the need for a big Hadoop-cluster-setup.
+A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, without the need for a complete Hadoop-cluster setup.
 
-## What exactly is Hadoop?
+## What is Hadoop?
 
-Hadoop is used for storing and analysing data. The term Hadoop is an umbrella-term for multiple applications. Four applications are building the Hadoop's core:
+Hadoop is used for storing and analysing data. The term Hadoop is an umbrella-term for multiple applications. Four (shortly five) applications are building the Hadoop's core:
 
 * **Hadoop Common** - Common application parts
 * **Hadoop Distributed File System (HDFS)** - Distributed file system
@@ -20,11 +20,11 @@ Hadoop is used for storing and analysing data. The term Hadoop is an umbrella-te
 * **Hadoop MapReduce** - Parallel processing of big data sets
 * _**Hadoop Ozone**_ - Coming soon, object storage
 
-This should be enough theory, let's start with some practical stuff. If you are interested in more details about Hadoop, it's core components or the multiple other applications, which are related to Hadoop, don't hesitate to visit the [Apache website](http://hadoop.apache.org/).
+If you're interested in more theoretical basics, please visit the [Apache website](http://hadoop.apache.org/).
 
 ## Prerequisites
 
-If you're interested in doing the steps on your own, you need:
+If you want to use this tutorial as a hands-on, you need:
 
 * Docker
 
@@ -35,7 +35,7 @@ There are some very useful Docker commands, which will be handy to follow this t
 
 ## Start it
 
-Please be aware, that it is not the default way to run Hadoop within a Docker container. Hadoop is designed to run in big clusters. The Docker container is great for getting started and having some easy-hands-on-experience with Hadoop!
+Please be aware, that it is not the default way to run Hadoop within a Docker container. Hadoop is designed to run in big clusters. The Docker container is great for getting started and having some easy-hands-on-experience!
 
 [sequenceiq](https://github.com/sequenceiq/hadoop-docker) is offering a Hadoop Docker image, which contains everything, we need, to get started.
 
