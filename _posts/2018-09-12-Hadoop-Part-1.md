@@ -6,9 +6,13 @@ tags: hadoop big-data tutorial
 
 > Big data is a topic, many people talk about nowadays, one of the tools, which are used to handle big data, is Hadoop.
 
-## What can you expect from this tutorial?
+## What can you expect from this tutorial-series?
 
 A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, without the need for a complete Hadoop-cluster setup.
+
+## What can you expect from this part of the tutorial?
+
+You will have an up and running Docker container with Hadoop and a first glance on Hadoop Overview page. Additionally you have four handy Docker commands in your reportoire.
 
 ## What is Hadoop?
 
@@ -40,8 +44,12 @@ There are some very useful Docker commands, which will be handy to follow this t
 * **Get a bash in a running container**  
   `docker exec -it <container-id> /bin/bash`  
   (or in Alpine-based image: `docker exec -it <container-id> /bin/ash`)
+* **Stop a running container**  
+  `docker container stop <container-id>`
+* **Start a stopped container**  
+  `docker container start <container-id>`
 
-## Start it
+## Start Hadoop Docker container
 
 Please be aware, that it is not the default way to run Hadoop within a Docker container. Hadoop is designed to run in big clusters. The Docker container is great for getting started and having some easy-hands-on-experience, but not for production!
 
@@ -53,7 +61,7 @@ Get your container up and running:
 docker run -it -p 50070:50070 -p 8088:8088 -p 8020:8020 sequenceiq/hadoop-docker:2.7.0 /etc/bootstrap.sh -bash
 ```
 
-## Test if everything is working
+## Test if it is working
 
 Inside the Docker container are already test-files and MapReduce-jobs. They can help to identify, if everything is working correctly. 
 Let's test it:
@@ -70,3 +78,14 @@ Let's test it:
     bin/hdfs dfs -cat output/*
     ```
 
+## Have a look at Hadoop Overview page
+
+Hadoop is offering a web UI, which is exposed at port 50070. This is the reason for port-forwarding this port at Docker image start-up. (`... -p 50070:50070`). 
+
+To enter the web UI, just enter `localhost:50070` in the browser of your choice.
+
+The web UI offers some basic information on Hadoop's state. It is also possible to browse through HDFS. To do so, enter `"Utilities"/"Browse the file-system"` under the directory `user/root` you can have a glance at the already available directories and files.
+
+## What's part 2 about?
+
+We will include a dataset into HDFS and write a MapReduce-job, then we are going to run the job, and check the results.
