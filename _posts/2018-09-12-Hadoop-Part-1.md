@@ -8,7 +8,7 @@ tags: hadoop big-data tutorial
 
 ## What can you expect from this tutorial-series?
 
-A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, without the need for a complete Hadoop-cluster setup.
+A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, and the need for a complete Hadoop-cluster setup.
 
 ## What can you expect from this part of the tutorial?
 
@@ -26,7 +26,7 @@ Hadoop is used for storing and analysing data, especially big sets of data. The 
   Framework for job-scheduling and cluster resource management
 * **Hadoop MapReduce**  
   Parallel processing of big data sets
-* _**Hadoop Ozone**_  (Coming soon)
+* _**Hadoop Ozone**_ (Coming soon)  
   Object storage
 
 If you're interested in more information on the details of Hadoop, please visit the [Apache website](http://hadoop.apache.org/).
@@ -86,6 +86,8 @@ To enter the web UI, just enter `localhost:50070` in the browser of your choice.
 
 The web UI offers some basic information on Hadoop's state. It is also possible to browse through HDFS. To do so, enter `"Utilities"/"Browse the file-system"` under the directory `user/root` you can have a glance at the already available directories and files.
 
-## What's part 2 about?
+## What's part 2 going to be about?
 
-We will include a dataset into HDFS and write a MapReduce-job, then we are going to run the job, and check the results.
+The next part has two main topics: HDFS and MapReduce.
+* Adding data to HDFS and retrieving data from HDFS.
+* Writing a MapReduce job and run it.
