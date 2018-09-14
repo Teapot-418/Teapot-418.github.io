@@ -89,5 +89,5 @@ The web UI offers some basic information on Hadoop's state. It is also possible 
 ## What's part 2 going to be about?
 
 The next part has two main topics: HDFS and MapReduce.
-* Adding data to HDFS and retrieving data from HDFS.
-* Writing a MapReduce job and run it.
+* Adding, retrieving and removing data from HDFS.
+* Writing a MapReduce job and running it.
