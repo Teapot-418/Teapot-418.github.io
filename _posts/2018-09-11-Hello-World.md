@@ -4,6 +4,6 @@ title: Hello World!
 tags: no-dev
 ---
 
-Well, nice...
+Welcome to my blog.
 
-It works!
+I hope you enjoy reading it.
