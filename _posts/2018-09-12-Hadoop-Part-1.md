@@ -12,11 +12,11 @@ A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, without the 
 
 ## What can you expect from this part of the tutorial?
 
-You will have an up and running Docker container with Hadoop and a first glance on Hadoop Overview page. Additionally you have four handy Docker commands in your reportoire.
+You will have an up and running Docker container with Hadoop and a first glance on Hadoop Overview page. Additionally, you have four handy Docker commands in your reportoire after this tutorial.
 
 ## What is Hadoop?
 
-Hadoop is used for storing and analysing data. The term Hadoop is an umbrella-term for multiple applications. Four (soon five) applications are building Hadoop's core:
+Hadoop is used for storing and analysing data, especially big sets of data. The term Hadoop is an umbrella-term for multiple applications. Four (soon five) applications are building Hadoop's core:
 
 * **Hadoop Common**  
   Common application parts
