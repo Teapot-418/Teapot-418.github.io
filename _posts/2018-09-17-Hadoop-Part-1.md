@@ -8,7 +8,7 @@ tags: hadoop big-data tutorial
 
 ## What can you expect from this tutorial-series?
 
-A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, and the need for a complete Hadoop-cluster setup.
+A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, and without the need for a complete Hadoop-cluster setup.
 
 ## What can you expect from this part of the tutorial?
 
