@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Hadoop - Taming The Elephant, Part 1
-tags: hadoop big-data tutorial
+tags: hadoop big-data 
+url: Hadoop-Part-1
+description: Big data is a topic, many people talk about nowadays. Want to get started without a Hadoop-cluster? Read this post.
 ---
 
 > Big data is a topic, many people talk about nowadays, one of the tools, which are used to handle big data, is Hadoop.
