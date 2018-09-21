@@ -23,15 +23,19 @@ MapReduce is a software framework, which enables you to write jobs, that can eas
 If you want to use this tutorial as a hands-on, you'll need:
 
 * Running Docker-container from part 1 of the series
-* Dataset from [Kaggle](www.kaggle.com) (For downloading it, you'll need an account)
-* JDK and a Java-IDE of your choice
+* JDK (8+) and a Java-IDE of your choice
 * Maven
 
 ## Get your dataset into HDFS
 
-This tutorial is based on a dataset from [Kaggle](www.kaggle.com). To use a Kaggle-dataset, you have to create an account, in order to login. If you are not interested in registering at Kaggle, you can also create your own set of data. We are going to work with a csv-file.
+I will use a dataset from Kaggle, but slightly changed for easier handling.
+* [Original dataset](https://www.kaggle.com/philipjames11/dark-net-marketplace-drug-data-agora-20142015)
+* [Modified dataset](https://github.com/Teapot-418/hadoop-taming-the-elephant/blob/master/darknet-data.csv)
 
-Download the csv-file [here](www.google.de) or create your csv-file.
+If you want to use your own dataset, don't hesitate.
+
+> Please choose:   
+> Download the provided dataset or create your own csv-dataset.
 
 ### Get it in
 
@@ -43,13 +47,18 @@ Download the csv-file [here](www.google.de) or create your csv-file.
 
 ### Did it work?
 
-To check, if the data is properly stored in HDFS, you can run this command inside the Docker container:
+There are two ways, of checking:
+
+#### Command Line
+
 ```
 /usr/local/hadoop/bin/hdfs dfs -ls /user/root/input
 ```
-This will show all the available datasets within the folder `input` with the root's user directory. Have a look, if `<name-in-hdfs>` is listed.
+This command will show all the available datasets within the folder `input` with the root's user directory. Have a look, if `<name-in-hdfs>` is listed.
 
-If you want to have this information displayed with some eye-candy, visit the Hadoop Overview page at `localhost:50070`, navigate to `"Utilities"/"Browse the file-system"` and browse to the root's user-directory.
+#### UI
+
+Visit the Hadoop Overview page at `localhost:50070`, navigate to `"Utilities"/"Browse the file-system"` and browse to the root's user-directory. Check, if `<name-in-hdfs>` is listed.
 
 ## Write MapReduce job in Java
 
@@ -57,7 +66,7 @@ The Java MapReduce job is going to consist of three parts, the mapper, the reduc
 
 ### Prerequisites
 
-To get the needed classes for building a MapReduce-job, the Hadoop-core has to be included as a Maven-dependency:
+To get the basics for building a MapReduce-job, Hadoop-core has to be included as a Maven-dependency:
 
 ```xml
 <dependency>
@@ -68,7 +77,7 @@ To get the needed classes for building a MapReduce-job, the Hadoop-core has to b
 ```
 > I've used version 1.2.1
 
-MapReduce-jobs has to be bundled as a jar, to run them. Therefore, a Maven plugin for packaging the application as a jar is needed.
+MapReduce-jobs has to be bundled as a jar to be runnable: 
 
 ```xml
 <plugin>
@@ -84,9 +93,7 @@ MapReduce-jobs has to be bundled as a jar, to run them. Therefore, a Maven plugi
     </configuration>
 </plugin>
 ```
-> Entrypoint is the name of your class, which contains the main-method.
-
-Now, that we have build up the base of our application, we can start diving deeper.
+> `Entrypoint` is the class-name of the class containing the main-method.
 
 ### The Mapper
 
@@ -277,4 +284,6 @@ This will remove the folder containing the output for `<output-name>`.
 
 ## What's part 3 going to be about?
 
-Now, that we have created some nice results with MapReduce, we are going to enter those results from another Docker container via HTTPHDFS. Additionally we will have a short look at Apache Spark.
+Now, that we have created some nice results with MapReduce, we are going to enter those results from another Docker container via HTTPHDFS. 
+
+> ???
