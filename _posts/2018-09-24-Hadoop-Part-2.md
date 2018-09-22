@@ -4,6 +4,7 @@ title: Hadoop - Taming The Elephant, Part 2
 tags: hadoop big-data tutorial
 url: Hadoop-Part-2
 description: Want to know, how to write a MapReduce job and run it? Read this post.
+image: Hadoop-2.png
 ---
 
 This part of the tutorial series, will show you, how to...
