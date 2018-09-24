@@ -9,6 +9,8 @@ image: Hadoop-1.png
 
 > Big data is a topic, many people talk about nowadays, one of the tools, which are used to handle big data, is Hadoop.
 
+![hadoop-2-title](../images/Hadoop-1.png){:class="img-responsive"}
+
 ## What can you expect from this tutorial-series?
 
 A _quick and dirty_ introduction to Hadoop, with a lot of hands-on, and without the need for a complete Hadoop-cluster setup.
