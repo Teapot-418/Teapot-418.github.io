@@ -254,10 +254,10 @@ nav {
 .post {
   blockquote {
     margin: 1.8em .8em;
-    border-left: 2px solid $gray;
+    border-left: 2px solid $highlight;
     padding: 0.1em 1em;
-    color: $gray;
-    font-size: 22px;
+    color: $highlight;
+    font-size: 18px;
     font-style: italic;
   }
 
@@ -288,17 +288,16 @@ footer {
 }
 
 .tag {
-  background-color: #9b009b;
-  color: whitesmoke;
-  padding: 0.5vh;
+  color: $highlight;
+  padding: 1vh;
   margin: 0.5vh;
   border-radius: 10px;
-  border: 2px solid #9b009b;
+  border: 2px solid $highlight;
 }
 
 .tag:hover {
-  background-color: whitesmoke;
-  color: #9b009b;
+  border: 2px dotted $highlight;
+  color: $highlight;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
