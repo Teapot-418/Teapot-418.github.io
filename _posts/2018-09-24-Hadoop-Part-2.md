@@ -57,11 +57,11 @@ There are two ways, of checking:
 ```
 /usr/local/hadoop/bin/hdfs dfs -ls /user/root/input
 ```
-This command will show all the available datasets within the folder `input` with the root's user directory. Have a look, if `<name-in-hdfs>` is listed.
+This command will show all the available datasets within the folder `input` in the root's user directory. If `<name-in-hdfs>` is listed, it's and indicator, that everything worked fine.
 
 #### UI
 
-Visit the Hadoop Overview page at `localhost:50070`, navigate to `"Utilities"/"Browse the file-system"` and browse to the root's user-directory. Check, if `<name-in-hdfs>` is listed.
+Visit the Hadoop Overview page at `localhost:50070`, navigate to `"Utilities"/"Browse the file-system"` and browse to the root's user-directory. Check, if `<name-in-hdfs>` is listed - everything went fine.
 
 ## Write MapReduce job in Java
 
@@ -78,7 +78,7 @@ To get the basics for building a MapReduce-job, Hadoop-core has to be included a
     <version>${hadoop.version}</version>
 </dependency>
 ```
-> I've used version 1.2.1
+> I've used version 1.2.1.
 
 MapReduce-jobs has to be bundled as a jar to be runnable: 
 
@@ -100,31 +100,32 @@ MapReduce-jobs has to be bundled as a jar to be runnable:
 
 ### The Mapper
 
-The mapper-class is going to split the data into independent chunks. It handles key-value-pairs as input and it will produce key-value-pairs as output. Have a look at a example Mapper class:
+The mapper-class is going to split the data into independent chunks. It handles key-value-pairs as input and it will produce key-value-pairs as output. Here is my example Mapper-class:
 
 ```java
-package ratingcount;
+package categorycount;
 
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
+import shared.Data;
 
 import java.io.IOException;
 
-public class RatingCountMapper extends MapReduceBase implements Mapper<LongWritable, Text, IntWritable, LongWritable> {
+public class CategoryCountMapper extends MapReduceBase implements Mapper<LongWritable, Text, Text, LongWritable> {
+
     @Override
-    public void map(LongWritable key, Text value, OutputCollector<IntWritable, LongWritable> output, Reporter reporter) throws IOException {
+    public void map(LongWritable key, Text value, OutputCollector<Text, LongWritable> output, Reporter reporter) throws IOException {
         String csvLine = value.toString();
 
-        String[] splitCsvLine = csvLine.split(";");
+        String[] splitCsvLine = csvLine.split(Data.SEPARATOR); // Data.SEPARATOR = ","
 
-        Integer rating = Integer.valueOf(splitCsvLine[5]);
+        String category = splitCsvLine[Data.CATEGORY]; // Data.CATEGORY = 1
 
-        output.collect(new IntWritable(rating), key);
+        output.collect(new Text(category), key);
     }
 }
 ```
@@ -133,18 +134,18 @@ Mapper and Reducer, both have to extend the so called MapReduceBase. The Mapper 
 
 As you can see, our Mapper is based on a csv-file, which will be mapped line by line. The key is a value of type long, which equals the line-id, the value is text, which equals the csv-line.
 
-The example mapper, takes the csv-line and splits the line at the defined separator, in this case it's a semicolon. Afterwards it assigns the value of column five to an integer variable called rating.
-The output is a rating as key, and the corresponding csv-line id as value.
+The example mapper takes the csv-line, splits it at it's separator and afterwards maps a category with it's corresponding line id.
 
 ### The Reducer
 
 The reducer-class is going to combine the splitted data. The results of mapping will be handed over as the keys and a list of corresponding values, so to say. Have a look at the example reducer-class:
 
 ```java
-package ratingcount;
+package categorycount;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reducer;
@@ -153,10 +154,10 @@ import org.apache.hadoop.mapred.Reporter;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class RatingCountReducer extends MapReduceBase implements Reducer<IntWritable, LongWritable, IntWritable, IntWritable> {
+public class CategoryCountReducer extends MapReduceBase implements Reducer<Text, LongWritable, Text, IntWritable> {
 
     @Override
-    public void reduce(IntWritable key, Iterator<LongWritable> values, OutputCollector<IntWritable, IntWritable> output, Reporter reporter) throws IOException {
+    public void reduce(Text key, Iterator<LongWritable> values, OutputCollector<Text, IntWritable> output, Reporter reporter) throws IOException {
         int count = 0;
 
         while(values.hasNext()) {
@@ -171,36 +172,40 @@ public class RatingCountReducer extends MapReduceBase implements Reducer<IntWrit
 
 Instead of the Mapper-interface, the reducer implements the Reducer-interface, which also needs the specification of key-input, value-input, key-output and value-output. By implementing the Reducer-interface, the reduce-method has to be overridden. The method takes key and an iterator of the value's type as input, as well as an output collector and reporter.
 
-The reducer corresponds with the example mapper class. It will get the ratings as keys and a list with ids as values. We initialize an integer count and set it to 0. Afterwards we increment count by 1, while there is another item in the list.
+The reducer corresponds with the example mapper class. It will get the categories as keys and a list with ids as values. We initialize an integer count and set it to 0. Afterwards we increment count by 1, while there is another item in the list.
 
-The result is, that we have the quantity of every possible rating (1-5).
+This results in having a map with category and corresponding quantity.
 
 ### Start-up
 
 To create start-up class, we have to create a class containg the main-method. 
 We will need to define the input-path (where is the data located in HDFS) and an output-path (where do we want to store the results in HDFS), when executing the jar.
 
+*To include other job-executions easier within the same jar, I've splitted up the Runner-class definition and "real" execution into two classes. In a next step, you could add a command line argument, specifying the execution, to be performed.*
+
+**Definition of a Runner class**
 ```java
-public class Entrypoint {
-    public static void main(String[] args) throws Exception {
-        if(args.length != ) {
-            System.err.println("Usage <input-path> <output-path>");
-            System.exit(-1);
-        }
+package categorycount;
 
-        String inputFile = args[1];
-        String outputFile = args[2];
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.*;
 
+public class CategoryCountRunner {
+
+    public void run(String inputFile, String outputFile) throws Exception {
         JobClient client = new JobClient();
 
-        JobConf conf = new JobConf(RatingCountRunner.class);
-        conf.setJobName("Rating Count");
-        conf.setMapOutputKeyClass(IntWritable.class);
+        JobConf conf = new JobConf(CategoryCountRunner.class);
+        conf.setJobName("Category Count");
+        conf.setMapOutputKeyClass(Text.class);
         conf.setMapOutputValueClass(LongWritable.class);
-        conf.setOutputKeyClass(IntWritable.class);
+        conf.setOutputKeyClass(Text.class);
         conf.setOutputValueClass(IntWritable.class);
-        conf.setMapperClass(RatingCountMapper.class);
-        conf.setReducerClass(RatingCountReducer.class);
+        conf.setMapperClass(CategoryCountMapper.class);
+        conf.setReducerClass(CategoryCountReducer.class);
         conf.setInputFormat(TextInputFormat.class);
         conf.setOutputFormat(TextOutputFormat.class);
 
@@ -236,15 +241,36 @@ We have to define a job configuration:
 
 With *setInputPaths* and *setOutputPath*, we define the path of the data-input and the data-output.
 
+**Entrypoint / Execution**
+```java
+import categorycount.CategoryCountRunner;
+
+public class Entrypoint {
+    public static void main(String[] args) throws Exception {
+        if (args.length != 2) {
+            System.err.println("Usage <input-path> <output-path>");
+            System.exit(-1);
+        }
+
+        String inputFile = args[0];
+        String outputFile = args[1];
+
+        CategoryCountRunner analysisRunner = new CategoryCountRunner();
+        analysisRunner.run(inputFile, outputFile);
+
+    }
+}
+```
+
 ## Run the job
 
-Now, that we have created all classes needed, we have only have to bundle everything as a jar. Simply run:
+Now, that we have created all classes needed, everything must be bundled as a jar. Simply run:
 
 ```
-maven clean package
+mvn clean package
 ```
 
-The jar can be found in the `target`-folder.
+*The jar can be found in the `target`-folder.*
 
 ### Get it into the container
 
@@ -261,6 +287,8 @@ Jump into the container and execute:
 `jar-path` describes, where the jar is located in Docker's file system.  
 `input` describes, where the input-dataset is stored in HDFS.
 `output` describes, where the output-dataset should be stored in HDFS.
+
+> The arguments passed after the jar-definition are the command-line arguments, the jar is handling.
 
 ### See the results
 
@@ -287,6 +315,4 @@ This will remove the folder containing the output for `<output-name>`.
 
 ## What's part 3 going to be about?
 
-Now, that we have created some nice results with MapReduce, we are going to enter those results from another Docker container via HTTPHDFS. 
-
-> ???
+Now, that we have created some nice results with MapReduce, we are going to enter those results from another Docker container via HTTPHDFS.
