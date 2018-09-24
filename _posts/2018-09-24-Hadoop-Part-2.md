@@ -54,7 +54,7 @@ There are two ways to check it out:
 ```
 /usr/local/hadoop/bin/hdfs dfs -ls /user/root/input
 ```
-This command will show all the available datasets within the folder `input` in the root's user directory. If `<name-in-hdfs>` is listed, it's and indicator, that everything worked fine.
+This command will show all the available datasets within the folder `input` in the root's user directory. If `<name-in-hdfs>` is listed, it's an indicator, that everything worked fine.
 
 #### UI
 
@@ -290,8 +290,10 @@ There are two ways to check the results:
    ```
    /usr/local/hadoop/bin/hdfs dfs -cat <output>/*
    ```
+   ![hadoop-2-example-console-output](../images/Hadoop-2-cout.png){:class="img-responsive"}
 2. Check it at Hadoop Overview Page:
    `localhost:50070`, navigate to `"Utilities"/"Browse the file-system"` and browse to the root's user-directory. There you can find the output-folder.
+   ![hadoop-2-example-ui](../images/Hadoop-2-ui.png){:class="img-responsive"}
 
 > Created folders contain multiple files: of multiple parts,
 > * a `_SUCCESS` description file and 
