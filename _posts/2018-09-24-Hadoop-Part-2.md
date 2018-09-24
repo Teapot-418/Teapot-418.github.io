@@ -15,6 +15,8 @@ This part of the tutorial series, will show you, how to...
 * ... read data from HDFS
 * ... remove data from HDFS
 
+![hadoop-2-title](../images/Hadoop-2.png){:class="img-responsive"}
+
 ## What is MapReduce?
 
 MapReduce is a software framework, which enables you to write jobs, that can easily process a big set of data. The basic concept behind MapReduce is, that it consists of two parts, a mapper and a reducer. The mapper splits up the data into independent data-parts, the reducer combines the splitted parts. Both, mapper and reducer, have key-value pairs as input and output.
