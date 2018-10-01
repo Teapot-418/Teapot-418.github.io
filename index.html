@@ -8,11 +8,11 @@ layout: default
 
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
 
-      <div class="entry">
+      <div class="entry-prev">
         {% if post.image %}
-          <img class="entry_image" src="../images/{{ post.image }}"/>
+          <img class="entry-prev_image" src="../images/{{ post.image }}"/>
         {% endif %}
-        <div class="entry_content">
+        <div class="entry-prev_content">
           {{ post.excerpt }}
           <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
         </div>
