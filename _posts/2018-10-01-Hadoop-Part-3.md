@@ -3,7 +3,7 @@ layout: post
 title: Hadoop - Taming The Elephant, Part 3
 tags: hadoop big-data tutorial
 url: Hadoop-Part-3
-description: Access the results, you produced, from "outside"
+description: HttpFS - What is it? How to use it?
 image: Hadoop-3.png
 ---
 
