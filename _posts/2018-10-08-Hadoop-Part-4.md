@@ -99,7 +99,7 @@ hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar
 
 If you're reading something about Hadoop and MapReduce, you may run into *combiners*. For the small Docker-Hadoop-installation it is not interesting, but if you want to run a Hadoop cluster, combiners can make your MapReduce execution faster.
 
-A combiner combines the content of the map output and sends the already combined output to the reducer, which minimizes network-traffic. The combiner would usually perform the same steps a reducer would perform, so you are often able to use your reducer as combiner.
+A combiner combines the content of the map output and sends the already combined output to the reducer, which minimizes network-traffic. The combiner would usually perform the same steps a reducer would perform, so you are often able to use your reducer as combiner. Combiners do not replace the reducer.
 
 ## What's part 5 about?
 
