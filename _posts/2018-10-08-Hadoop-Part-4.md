@@ -18,16 +18,88 @@ This post will show you, how to...
 
 ## What is Hadoop's Streaming API?
 
+Hadoop Streaming provides an API to write MapReduce jobs in any language, that supports Unix standard input and output. Testing can be done in the command line with Unix pipes, which comes in as a handy feature.
+
+A big difference between the Java API and Hadoop Streaming is, that the Java API provides an iterator over each key-group while in Hadoop Streaming the programmer has to find key-group boundaries.
+
+> Good to know:  
+> The MapReduce framework ensures the order of the keys
+
 ## Prerequisites
 
 This part is only related to [part 1](../Hadoop-Part-1) of this series, the only requirement is to have the Hadoop docker container up and running.
 
 ## How to make use of Hadoop's Streaming API
 
+Both, mapper and reducer will receive the data via Unix standard input. The mapper will receive it in the order it appears in the input file, the reducer will receive data ordered by key, which makes it handier to go on with reducing the data.
+
 ### Mapper
+
+We will write a Python script, handling the standard output line by line. It has to split the data at the given separator (`,` in this case) to receive an array with the data. To make the data reducable, we generate a unique id, which is the line-number. To hand the data over to our reducer (via MapReduce), we only have to print the results into Unix standard output.
+
+```python
+#!/usr/bin/env python
+
+import sys
+
+id = 0
+
+for line in sys.stdin:
+  val = line.strip()
+  data = val.split(',')
+  category = data[1]
+  print(category + '\t' + str(id))
+  id = id + 1
+```
 
 ### Reducer
 
+The reducer is also written in Python. We will receive the data ordered by key, but we have to make sure, that the counting is done correctly by remembering the line before, to check, if we are still looking at the same category as before. The results are handed over by using Unix standard output.
+
+```python
+#!/usr/bin/env python
+
+import sys
+
+previous_key = None
+count = 0
+
+for line in sys.stdin:
+    (key, val) = line.strip().split('\t')
+    if previous_key is None:
+        previous_key = key
+    if key == previous_key:
+        count = count + 1
+    else:
+        print(key + '\t' + str(count))
+        count = 1
+    previous_key = key
+```
+
 ### Run it
 
+The `hadoop` command doesn't allow Streaming natively, so we have to do it via a provided jar, call:
+
+```shell
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar
+	-files <mapper-file>,<reducer-file>
+	-input <input-file>
+	-output <output-name>
+	-mapper <mapper-file>
+	-reducer <reducer-file>
+	-combiner <reducer-file>
+```
+
+* `-files` ships the listed files to the cluster
+* `-input` defines the input-file for the MapReduce job
+* `-output` defines the output-file of the MapReduce job
+* `-mapper` defines the mapper for MapReduce
+* `-reducer` defines the reducer for MapReduce
+* `-combiner` defines the combiner for MapReduce
+
+> What is a combiner?  
+> A combiner combines results of mappers before sending it to the reducer, this minimizes network traffic. This does not replace the reducer! 
+
 ## What's part 5 about?
+
+In [part 2](../Hadoop-Part-2) we've created a MapReduce job with Java. The program was written in Java API 1. Next time, we have a look at the differences between API 1 and 2 and we are going to create a MapReduce job in API version 2 to spot the differences.
