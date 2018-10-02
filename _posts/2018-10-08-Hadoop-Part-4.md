@@ -7,7 +7,7 @@ description: MapReduce without Java? Yes, it is possible!
 image: Hadoop-4.png
 ---
 
-The main topic of this post is Hadoop's Streaming API.
+Is it possible to write a MapReduce job without Java? The answer is yes.
 
 This post will show you, how to...
 
