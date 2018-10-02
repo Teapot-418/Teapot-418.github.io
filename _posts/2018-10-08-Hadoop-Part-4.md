@@ -78,7 +78,7 @@ for line in sys.stdin:
 
 ### Run it
 
-The `hadoop` command doesn't allow Streaming natively, so we have to do it via a provided jar, call:
+The first step is to transfer mapper and reducer into the running Docker container (`docker cp`). To run mapper and reducer with Hadoop Streaming API, call:
 
 ```shell
 hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar
@@ -87,7 +87,6 @@ hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar
 	-output <output-name>
 	-mapper <mapper-file>
 	-reducer <reducer-file>
-	-combiner <reducer-file>
 ```
 
 * `-files` ships the listed files to the cluster
@@ -95,10 +94,12 @@ hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar
 * `-output` defines the output-file of the MapReduce job
 * `-mapper` defines the mapper for MapReduce
 * `-reducer` defines the reducer for MapReduce
-* `-combiner` defines the combiner for MapReduce
 
-> What is a combiner?  
-> A combiner combines results of mappers before sending it to the reducer, this minimizes network traffic. This does not replace the reducer! 
+## Nice to know: Combiner
+
+If you're reading something about Hadoop and MapReduce, you may run into *combiners*. For the small Docker-Hadoop-installation it is not interesting, but if you want to run a Hadoop cluster, combiners can make your MapReduce execution faster.
+
+A combiner combines the content of the map output and sends the already combined output to the reducer, which minimizes network-traffic. The combiner would usually perform the same steps a reducer would perform, so you are often able to use your reducer as combiner.
 
 ## What's part 5 about?
 
