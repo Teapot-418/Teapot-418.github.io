@@ -30,7 +30,7 @@ footer-links:
   instagram:
   linkedin:
   pinterest:
-  rss: # just type anything here for a working RSS icon
+  rss: Teapot-418
   twitter: teapot4181
   stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
   youtube: # channel/<your_long_string> or user/<user-name>
@@ -89,5 +89,8 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+plugins:
+  - jekyll-feed
 
 theme: jekyll-theme-slate
